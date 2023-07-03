@@ -8,7 +8,18 @@ import EditTodoForm from './EditTodoForm';
 const TodoWrapper = () => {
     const [todos, setTodos] = useState([]);
 
-    
+    // Cargar los datos guardados en localStorage al iniciar la aplicación
+    useEffect(() => {
+        const storedTodos = localStorage.getItem('todos');
+        if (storedTodos) {
+            setTodos(JSON.parse(storedTodos));
+        }
+    }, []);
+
+    // Guardar los datos en localStorage cuando los todos se actualizan
+    useEffect(() => {
+        localStorage.setItem('todos', JSON.stringify(todos));
+    }, [todos]);
 
     const addTodo = (todo) => {
         setTodos([
