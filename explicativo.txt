@@ -1,0 +1,48 @@
+. A diferencia de React básico con 'create-react-app', Next.js ('create-next-app'), utilza la página "page.jsx" como la principal de toda la APP. 
+
+. El "layout.js" aporta metadata (title), y más importante en este caso, es el archivo responsable de proporcionar una estructura básica para todo el contenido de la página. Además, puede compartir data y metadata con varias páginas con el fin de ser reutilizados por las mismas.
+
+. El archivo "globals.css" se importa únicamente en el Componente contenedor/padre de todos los demás "page.jsx" (que contiene a "TodoWrapper.jsx", y a su vez, éste contiene a todos los demás componentes).
+
+. Como se dijo recién, el componente "page.jsx" es el componente principal de la APP, en el cual se van a volcar todos los demás.
+
+
+. "TodoWrapper.jsx" es el Componente funcional padre de todos los demás. 
+    . 1) Este componente, al utilizar Hooks ("useEffect", "useState"...), como toda APP de Next.js, debe tener la especificación arriba de todo: "use client" para ejecutar un renderizado del lado del cliente.
+
+    . 2) Se hace import de "uuidv4" para la generación de IDs únicos.
+    
+    . 3) Se importan todos los Componentes hijos ("TodoForm", "Todo", "EditTodoForm")
+
+    . 4) Se crea una declaración de ESTADO ("useState") para tareas.
+        . A) ¿Qué es el ESTADO? 
+            . El estado de un componente es un objeto que contiene datos y valores que pueden cambiar durante la vida útil del componente.
+
+        . B) "todos, setTodos"
+            . "todos" es el valor del estado actual
+            . "setTodos" es la función que nos permite modificar a "todos".
+
+        . C) "useState([])"
+                . "useState" es una función que sirve para manipular y agregar estados en los Componentes
+                . En este caso, "useState" determina que el estado actual ("todos") es = [] (un array vacío).
+
+    . 5) Utilización de "useEffect"
+        . A) Por definición, "useEffect" es un HOOK que nos permite ejecutar codigo arbitrario en diferentes momentos del ciclo de vida de un Componente funcional.
+            . Un HOOK es una función que permite agregar características de REACT a los Componentes funcionales
+            . Por ejemplo:
+                . "useState": Permite agregar estado local a un componente funcional.
+                . "useEffect": Permite realizar efectos secundarios en un componente funcional, como realizar solicitudes a una API o suscribirse a eventos.
+        . B) En este caso, los "useEffect()" se usan para cargar y consultar datos guardados en el "localStorage"
+            . En el caso del que se encarga de guardar, guarda el valor de "todos" en el array que se declaró en "useState" !!
+
+    . 6) "addTodo()"
+        . A) Esta función se instancia para crear tareas
+        . B) Recibe como parámetro "todo" (que puede ser cualquier cosa)
+        . C) Ejecuta la misma función proporcionada por el HOOK "useState" que permite el cambio de "todos" ("setTodos")
+        . D) Recibe el operador "spread" (...), que es una copia del array original "todos" (vacío o no vacío, dependiendo del localStorage) en otro, y además, al final del array se suma el objeto que se ve ahi, con sus propiedades y valores.
+
+    . 7) "deleteTodo()"
+        . A) Esta función se instancia para borrar tareas
+        . B) Recibe como parámetro "id" (que es necesario para encontrar el elemento a borrar)
+        . C) Llama al HOOK "useState" con "setTodos"
+        . D) Aplica el método ".filter()" al array "todos" y dice que SOLO devuelva los elementos de dicho array cuyos "id" no coincidan con el "id" pasado por parámetros

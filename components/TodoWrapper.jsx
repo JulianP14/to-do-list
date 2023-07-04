@@ -1,7 +1,7 @@
 'use client'
 import { useEffect, useState } from 'react';
-import TodoForm from './TodoForm';
 import { v4 as uuidv4 } from 'uuid';
+import TodoForm from './TodoForm';
 import Todo from './Todo';
 import EditTodoForm from './EditTodoForm';
 
@@ -22,14 +22,7 @@ const TodoWrapper = () => {
     }, [todos]);
 
     const addTodo = (todo) => {
-        setTodos([
-            ...todos,
-            {
-                id: uuidv4(),
-                task: todo,
-                completed: false,
-                isEditing: false,
-            },
+        setTodos([...todos, { id: uuidv4(), task: todo, completed: false, isEditing: false }
         ]);
     };
 
@@ -67,21 +60,22 @@ const TodoWrapper = () => {
             <TodoForm addTodo={addTodo} />
             {/* display todos */}
             {todos.map((todo, index) =>
-                todo.isEditing ? (
-                    <EditTodoForm
-                        editTodo={editTask}
-                        task={todo}
-                        key={index}
-                    />
-                ) : (
-                    <Todo
-                        key={index}
-                        task={todo}
-                        deleteTodo={deleteTodo}
-                        editTodo={editTodo}
-                        toggleComplete={toggleComplete}
-                    />
-                )
+                todo.isEditing
+                    ? (
+                        <EditTodoForm
+                            editTodo={editTask}
+                            task={todo}
+                            key={index}
+                        />
+                    ) : (
+                        <Todo
+                            key={index}
+                            task={todo}
+                            deleteTodo={deleteTodo}
+                            editTodo={editTodo}
+                            toggleComplete={toggleComplete}
+                        />
+                    )
             )}
         </div>
     );
